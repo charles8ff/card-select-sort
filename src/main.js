@@ -57,7 +57,7 @@ window.onload = () => {
   });
   orderButton.addEventListener("click", () => {
     bubbleDiv.textContent = "";
-    bubbleSort(arrayFromInput, arrayCardSuits);
+    selectSort(arrayFromInput, arrayCardSuits);
     arrayCards = [];
     for (let i = 0; i < arrayFromInput.length; i++) {
       arrayCards.push(cardHeight[arrayFromInput[i]]);
@@ -74,27 +74,46 @@ const newRowofCard = (arr, arrsuits) => {
     bubbleLog(arr[b], arrsuits[b], newRow);
   }
 };
-
-const bubbleSort = (arr, arrsuits) => {
-  var len = arr.length;
-
-  for (var i = 0; i < len; i++) {
-    for (var j = 0; j < len - i - 1; j++) {
-      if (arr[j] > arr[j + 1]) {
-        var temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
-
+const selectSort = (arr, arrsuits) => {
+  let min = 0;
+  while (min < arr.length - 1) {
+    for (let i = min + 1; i < arr.length - 1; i++) {
+      if (arr[min] > arr[i]) {
+        let aux = arr[min];
+        arr[min] = arr[i];
+        arr[i] = aux;
         //SUITS
-        var temp2 = arrsuits[j];
-        arrsuits[j] = arrsuits[j + 1];
-        arrsuits[j + 1] = temp2;
+        let aux2 = arrsuits[min];
+        arrsuits[min] = arrsuits[i + 1];
+        arrsuits[i + 1] = aux2;
       }
       newRowofCard(arr, arrsuits);
     }
+    min++;
   }
+
   return arr, arrsuits;
 };
+// const bubbleSort = (arr, arrsuits) => {
+//   var len = arr.length;
+
+//   for (var i = 0; i < len; i++) {
+//     for (var j = 0; j < len - i - 1; j++) {
+//       if (arr[j] > arr[j + 1]) {
+//         var temp = arr[j];
+//         arr[j] = arr[j + 1];
+//         arr[j + 1] = temp;
+
+//         //SUITS
+//         var temp2 = arrsuits[j];
+//         arrsuits[j] = arrsuits[j + 1];
+//         arrsuits[j + 1] = temp2;
+//       }
+//       newRowofCard(arr, arrsuits);
+//     }
+//   }
+//   return arr, arrsuits;
+// };
 
 const randomCardSuits = () => {
   const arraySuits = ["heart", "diamond", "spade", "club"];
