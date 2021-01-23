@@ -57,10 +57,10 @@ window.onload = () => {
   });
   ORDER_BUTTON.addEventListener("click", () => {
     CONTAINER_SELECT.textContent = "";
-    var h = document.createElement("H2");
-    var t = document.createTextNode("Card Select Sort Process");
-    h.appendChild(t);
-    CONTAINER_SELECT.appendChild(h);
+    let h2ofSteps = document.createElement("H2");
+    let h2CreateText = document.createTextNode("Card Select Sort Process");
+    h2ofSteps.appendChild(h2CreateText);
+    CONTAINER_SELECT.appendChild(h2ofSteps);
     selectSort(arrayFromInput, arrayCardsSuits);
     arrayCardsHeight = [];
     for (let i = 0; i < arrayFromInput.length; i++) {
