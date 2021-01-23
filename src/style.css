@@ -1,9 +1,10 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 body {
-  background-image: url(https://wallpaperboat.com/wp-content/uploads/2020/03/poker-01.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: url(https://images3.alphacoders.com/966/96657.jpg);
+  background-repeat: repeat-y;
+  background-size: auto;
+  font-weight: bold;
 }
 
 .card {
@@ -17,6 +18,22 @@ body {
 p {
   font-family: "Bodoni Moda", "serif";
   font-size: 0.8rem;
+}
+
+.selectCard {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.steps-number {
+  color: white;
+  font-size: 2.5rem;
+  align-self: center;
+  padding: 2rem;
+}
+
+h2 {
+  color: white;
 }
 
 .reverse-p {

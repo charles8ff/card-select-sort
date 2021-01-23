@@ -4,7 +4,7 @@ import "./style.css";
 
 import "./assets/img/rigo-baby.jpg";
 import "./assets/img/4geeks.ico";
-const cardHeight = [
+const CARD_HEIGHT = [
   "A",
   "2",
   "3",
@@ -19,128 +19,82 @@ const cardHeight = [
   "Q",
   "K"
 ];
-const randomNumbers = () => Math.floor(Math.random() * cardHeight.length);
-const generateButton = document.querySelector("#generateCards");
-const orderButton = document.querySelector("#orderbutton");
-const inputCards = document.querySelector("#inputCards");
-const divElem = document.querySelector("#createDivCard");
-const divBubble = document.querySelector("#createDivBubble");
-const bubbleDiv = document.querySelector("#container-bubble");
+const CARD_SUIT = ["heart", "diamond", "spade", "club"];
+const GENERATE_BUTTON = document.querySelector("#generateCards");
+const ORDER_BUTTON = document.querySelector("#orderbutton");
+const INPUT_CARD_NUMBER = document.querySelector("#inputCards");
+const GENERATE_DIV = document.querySelector("#createDivCard");
+const CONTAINER_SELECT = document.querySelector("#container-select");
 
 window.onload = () => {
   let inputNumberfromUser = 0;
-  let arrayFromInput; //luego quitar
-  let arrayCards = [];
-  let arrayCardSuits = [];
-  generateButton.addEventListener("click", () => {
-    console.log(inputCards.value);
-    divElem.textContent = "";
-    bubbleDiv.textContent = "";
-    if (inputCards.value <= 30) {
-      inputNumberfromUser = inputCards.value;
+  let arrayFromInput = [];
+  let arrayCardsHeight = [];
+  let arrayCardsSuits = [];
+
+  GENERATE_BUTTON.addEventListener("click", () => {
+    console.log(INPUT_CARD_NUMBER.value);
+    GENERATE_DIV.textContent = ""; //this cleans previous cards from the generate cards div
+    CONTAINER_SELECT.textContent = ""; //this also cleans previous cards from the container of steps
+    if (INPUT_CARD_NUMBER.value <= 30) {
+      inputNumberfromUser = INPUT_CARD_NUMBER.value;
       arrayFromInput = Array.from({ length: inputNumberfromUser }, () =>
         randomNumbers()
       );
-      arrayCardSuits = [];
-      arrayCardSuits = Array.from({ length: inputNumberfromUser }, () =>
+      arrayCardsSuits = [];
+      arrayCardsSuits = Array.from({ length: inputNumberfromUser }, () =>
         randomCardSuits()
       );
-      arrayCards = [];
+      arrayCardsHeight = [];
       for (let i = 0; i < arrayFromInput.length; i++) {
-        arrayCards.push(cardHeight[arrayFromInput[i]]);
+        arrayCardsHeight.push(CARD_HEIGHT[arrayFromInput[i]]);
       }
 
       for (let i = 0; i < arrayFromInput.length; i++) {
-        newCard(arrayCards[i], arrayCardSuits[i]);
+        newCard(arrayCardsHeight[i], arrayCardsSuits[i]);
       }
     }
   });
-  orderButton.addEventListener("click", () => {
-    bubbleDiv.textContent = "";
-    selectSort(arrayFromInput, arrayCardSuits);
-    arrayCards = [];
+  ORDER_BUTTON.addEventListener("click", () => {
+    CONTAINER_SELECT.textContent = "";
+    var h = document.createElement("H2");
+    var t = document.createTextNode("Card Select Sort Process");
+    h.appendChild(t);
+    CONTAINER_SELECT.appendChild(h);
+    selectSort(arrayFromInput, arrayCardsSuits);
+    arrayCardsHeight = [];
     for (let i = 0; i < arrayFromInput.length; i++) {
-      arrayCards.push(cardHeight[arrayFromInput[i]]);
+      arrayCardsHeight.push(CARD_HEIGHT[arrayFromInput[i]]);
     }
   });
 };
-
-const newRowofCard = (arr, arrsuits) => {
-  var newRow = document.createElement("div");
-  newRow.classList.add("d-flex", "flex-row", "flex-wrap");
-  bubbleDiv.appendChild(newRow);
-  for (var b = 0; b < arr.length; b++) {
-    //console.log(arr[b]);
-    bubbleLog(arr[b], arrsuits[b], newRow);
-  }
-};
-const selectSort = (arr, arrsuits) => {
-  let min = 0;
-  while (min < arr.length - 1) {
-    for (let i = min + 1; i < arr.length - 1; i++) {
-      if (arr[min] > arr[i]) {
-        let aux = arr[min];
-        arr[min] = arr[i];
-        arr[i] = aux;
-        //SUITS
-        let aux2 = arrsuits[min];
-        arrsuits[min] = arrsuits[i + 1];
-        arrsuits[i + 1] = aux2;
-      }
-      newRowofCard(arr, arrsuits);
-    }
-    min++;
-  }
-
-  return arr, arrsuits;
-};
-// const bubbleSort = (arr, arrsuits) => {
-//   var len = arr.length;
-
-//   for (var i = 0; i < len; i++) {
-//     for (var j = 0; j < len - i - 1; j++) {
-//       if (arr[j] > arr[j + 1]) {
-//         var temp = arr[j];
-//         arr[j] = arr[j + 1];
-//         arr[j + 1] = temp;
-
-//         //SUITS
-//         var temp2 = arrsuits[j];
-//         arrsuits[j] = arrsuits[j + 1];
-//         arrsuits[j + 1] = temp2;
-//       }
-//       newRowofCard(arr, arrsuits);
-//     }
-//   }
-//   return arr, arrsuits;
-// };
-
+const randomNumbers = () => Math.floor(Math.random() * CARD_HEIGHT.length); //pick a random valid number
 const randomCardSuits = () => {
-  const arraySuits = ["heart", "diamond", "spade", "club"];
-  let randomSuits = Math.floor(Math.random() * arraySuits.length);
-  return arraySuits[randomSuits];
+  //pick a random suit
+  let randomSuits = Math.floor(Math.random() * CARD_SUIT.length);
+  return CARD_SUIT[randomSuits];
 };
-
 const newCard = (arrNumber, arrSuits) => {
-  var myNewCard = document.createElement("div");
+  //New Card Printed
+  let myNewCard = document.createElement("div");
   myNewCard.classList.add("card", "shadow-lg");
-  var cardTitle = document.createElement("div");
+  let cardTitle = document.createElement("div");
   cardTitle.classList.add("card-title", "d-flex", "ml-2", "mt-1");
-  var suit1 = document.createElement("p");
+  let suit1 = document.createElement("p");
   suit1.classList.add(arrSuits);
 
-  var cardBody = document.createElement("div");
+  let cardBody = document.createElement("div");
   cardBody.classList.add(
     "card-body",
     "d-flex",
     "align-items-center",
     "justify-content-center"
   );
-  var number = document.createElement("p");
-  var newtext = document.createTextNode(arrNumber);
+  let number = document.createElement("p");
+  let newtext = document.createTextNode(arrNumber);
   number.appendChild(newtext);
 
-  var cardFooter = document.createElement("div");
+  let cardFooter = document.createElement("div");
   cardFooter.classList.add(
     "card-footer",
     "bg-transparent",
@@ -149,38 +103,91 @@ const newCard = (arrNumber, arrSuits) => {
     "ml-5",
     "justify-content-end"
   );
-  var suit2 = document.createElement("p");
+  let suit2 = document.createElement("p");
   suit2.classList.add(arrSuits, "reverse-p");
-
   cardTitle.appendChild(suit1);
-  myNewCard.appendChild(cardTitle); // UNIMOS TITLE A LA CARD
+  myNewCard.appendChild(cardTitle);
   cardBody.appendChild(number);
   myNewCard.appendChild(cardBody);
   cardFooter.appendChild(suit2);
   myNewCard.appendChild(cardFooter);
-  divElem.appendChild(myNewCard);
+  GENERATE_DIV.appendChild(myNewCard);
 };
 
-const bubbleLog = (arrNumber, arrSuits, newRow) => {
-  var myNewCard = document.createElement("div");
-  myNewCard.classList.add("card", "shadow-lg", "col-1");
-  var cardTitle = document.createElement("div");
+const selectSort = (arr, arrsuits) => {
+  let minIdx,
+    temp,
+    temp2,
+    len = arr.length;
+  let stepsCounter = 0;
+  for (let i = 0; i < len; i++) {
+    minIdx = i;
+    for (let j = i + 1; j < len; j++) {
+      if (arr[j] < arr[minIdx]) {
+        minIdx = j;
+      }
+    }
+    temp = arr[i];
+    arr[i] = arr[minIdx];
+    arr[minIdx] = temp;
+    //mirrors swap in Suits array
+    temp2 = arrsuits[i];
+    arrsuits[i] = arrsuits[minIdx];
+    arrsuits[minIdx] = temp2;
+
+    stepsCounter += 1;
+    newRowofCard(arr, arrsuits, stepsCounter); //print the step
+  }
+
+  return arr, arrsuits;
+};
+
+const newRowofCard = (arr, arrsuits, numberOfStep) => {
+  //Adds a new row for the SelectSort to be printed
+  let newRow = document.createElement("div");
+  newRow.classList.add(
+    "d-flex",
+    "flex-row",
+    "flex-wrap",
+    "border",
+    "border-danger",
+    "rounded",
+    "selectCard"
+  );
+  CONTAINER_SELECT.appendChild(newRow);
+  let createPofSteps = document.createElement("p");
+  let numberOfP = document.createTextNode(numberOfStep);
+  createPofSteps.appendChild(numberOfP);
+  createPofSteps.classList.add("steps-number");
+  newRow.appendChild(createPofSteps);
+  for (let b = 0; b < arr.length; b++) {
+    selectSteps(arr[b], arrsuits[b], newRow);
+  }
+};
+
+const selectSteps = (arrNumber, arrSuits, newRow) => {
+  //Prints steps of Select Sort algorithm (selectSort())
+  //This is called inside newRowOfCards
+  let myNewCard = document.createElement("div");
+  myNewCard.classList.add("card", "shadow-lg");
+
+  let cardTitle = document.createElement("div");
   cardTitle.classList.add("card-title", "d-flex", "ml-2", "mt-1");
-  var suit1 = document.createElement("p");
+  let suit1 = document.createElement("p");
   suit1.classList.add(arrSuits);
 
-  var cardBody = document.createElement("div");
+  let cardBody = document.createElement("div");
   cardBody.classList.add(
     "card-body",
     "d-flex",
     "align-items-center",
     "justify-content-center"
   );
-  var number = document.createElement("p");
-  var newtext = document.createTextNode(cardHeight[arrNumber]);
+  let number = document.createElement("p");
+  let newtext = document.createTextNode(CARD_HEIGHT[arrNumber]);
   number.appendChild(newtext);
 
-  var cardFooter = document.createElement("div");
+  let cardFooter = document.createElement("div");
   cardFooter.classList.add(
     "card-footer",
     "bg-transparent",
@@ -189,11 +196,11 @@ const bubbleLog = (arrNumber, arrSuits, newRow) => {
     "ml-5",
     "justify-content-end"
   );
-  var suit2 = document.createElement("p");
+  let suit2 = document.createElement("p");
   suit2.classList.add(arrSuits, "reverse-p");
 
   cardTitle.appendChild(suit1);
-  myNewCard.appendChild(cardTitle); // UNIMOS TITLE A LA CARD
+  myNewCard.appendChild(cardTitle);
   cardBody.appendChild(number);
   myNewCard.appendChild(cardBody);
   cardFooter.appendChild(suit2);
